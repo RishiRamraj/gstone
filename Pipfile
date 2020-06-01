@@ -9,6 +9,12 @@ pylama = "*"
 [packages]
 twitchio = "*"
 pyaml = "*"
+pbr = "*"
+python-dotenv = "*"
+click = "*"
+python-vlc = "*"
+pyyaml = "*"
+gstone = {editable = true,path = "."}
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

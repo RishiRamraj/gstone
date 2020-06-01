@@ -1,75 +1,65 @@
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y013678)
+# Gossip Stone (gstone)
 
-# Barebones Twitch Bot in Python
+A Twitch bot that lets chat users play audio files in your stream.
 
->**This is the companion repo to a [tutorial](https://dev.to/twitchbot101) on dev.to**
+## Installation
 
-This is a starter-kit for Twitch chat bot, if you wanna write one in Python. It utilizes the TwitchIO library and YAML files for storing secrets and config info.
+The easiest way to install and run the bot is via pipenv:
 
-It's pretty basic right now, but I'll be expanding on this in the near future. The larger, more complex Twitch bot is being developed [HERE](https://github.com/NinjaBunny9000/DeepThonk) during [Live-Streams on Twitch](https://twitch.tv/ninjabunny9000).
-
-
-## Getting Started
-
-Should be quick & easy to get up and running but, ofc, if you ever have questions about the specifics, please feel free to ask me during streams or post an issue above.
-
-### Prerequisites
-- [Python 3.6](https://www.python.org/downloads/release/python-368/)
-- PIPENV -> `python -m pip install pipenv`
-- oauth token & client-id for a Twitch account for your bot
-
-### Installing
-1. Clone the repo, unzip it somewhere
-2. Open up a console window and navigate to the directory you unzipped it in
-3. Install requirements with `pipenv install`
-4. Copy & rename `integrations-example.yaml` to `integrations.yaml`
-5. Pop in all your secrets into the respective areas in `integrations.yaml`
-6. Back to the console, `pipenv run python bot.py` to start the bot
-7. Type `!test` in the chatroom to test the bot's working
-
-**You just installed a basic chat bot for Twitch!** Have fun expanding the bot with more commands!! :D
-
-## Bot Interaction
-Right now, you can only interact with the bot via the single command, `!test`. You can create similar commands pretty easily, just copy the function and change out the function name decorator arguement...
-
-```python
-@bot.command(name='likethis', aliases=['this'])
-async def likethis(ctx):
-    await ctx.send(f'Asuh, @{ctx.author.name}!')
+```
+pip install --user pipenv
 ```
 
-Test is out with `!likethis` in chat! :D
+The bot uses libvlc to play sound files:
 
-## Events
-
-There are 2 events that are used in the code right now.. `on_ready` and `on_event`.
-
-### on_ready
-This executes when the bot comes online, and will print out to the console. 
-```python
-@bot.event
-async def event_ready():
-    print(f'Ready | {bot.nick}')
+```
+sudo apt install vlc
 ```
 
-### event_message
-This function executes once per event (or message) sent. You can make it handle input from chat that *aren't* necesarily commands, and fun stuff like that.
+Use pipenv to install the bot and get a shell
 
-```python
-@bot.event
-async def event_message(message):
-    print(message.content)
-    await bot.handle_commands(message)
+```
+pipenv install
+pipenv shell
 ```
 
-You can find more info in [TwitchIO's official documentation](https://twitchio.readthedocs.io/en/rewrite/twitchio.html).
+Now you should be able to run the bot:
+```
+gstone --help
+```
 
+## Configuration
 
-## Progress & Development Info
+There are two environment variables that you'll need to configure to set
+up the bot. Toss them in a local .env file for convenience:
 
-### Contributors & Licenses
+```
+GSTONE_TMI_TOKEN=oauth:token
+GSTONE_CLIENT_ID=id
+```
 
-[NinjaBunny9000](https://github.com/NinjaBunny9000) - _Author, Project Manager_ - [Twitch](https://twitch.tv/ninjabunny9000) //  [Twitter](https://twitter.com/ninjabunny9000)
+These values are kept in a .env file so that they aren't leaked accidentally
+on your stream. You can get an IRC token [here](https://twitchapps.com/tmi/)
+and a client id [here](https://dev.twitch.tv/console/apps/create).
 
-### Special Thanks
-Literally everyone that's helped even the smallest bit during streams. Thank you so much, y'all!
+Next edit your `config.yaml`. The following lists all of the configuration
+parameters with their default values:
+
+```
+nick: <your account name>
+volume: 50 # 0 to 100
+prefix: ! # the prefix for your commands
+greeting: /me is ready to gossip # sent when you connect to chat
+tracks:
+  hey listen: listen.mp3
+  thank you: thankyou.mp3
+```
+
+## Usage
+
+Run the command with the path to the config followed by the name of the
+twitch channel you want to connect to:
+
+```
+gstone config.yaml "rishiramraj"
+```

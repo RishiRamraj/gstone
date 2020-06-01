@@ -41,8 +41,8 @@ def main(channel, config, loglevel):
     conf = yaml.full_load(config)
 
     # Decode the config.
-    irc_token = os.environ["SQUAK_TMI_TOKEN"]
-    client_id = os.environ["SQUAK_CLIENT_ID"]
+    irc_token = os.environ["GSTONE_TMI_TOKEN"]
+    client_id = os.environ["GSTONE_CLIENT_ID"]
 
     # Setup the bot.
     gstonebot = bot.make(irc_token, client_id, channel, conf)
